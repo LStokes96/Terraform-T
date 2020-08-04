@@ -33,7 +33,7 @@ resource "azurerm_public_ip" "myterraformpublicip" {
 }
 
 data "template_file" "cloudconfig" {
-  template = "${file("~/Terraform/VM/template.tpl")}"
+  template = "${file("~/Terraform-T/Terraform/VM/template.tpl")}"
 }
 
 data "template_cloudinit_config" "config" {

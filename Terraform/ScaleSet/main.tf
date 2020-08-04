@@ -4,8 +4,8 @@ resource "azurerm_public_ip" "exampleSS" {
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
   allocation_method   = "Static"
-  domain_name_label   = var.resource_group_name
 }
+
 
 resource "azurerm_lb" "example" {
   name                = "test"
@@ -45,7 +45,7 @@ resource "azurerm_lb_probe" "example" {
 }
 
 data "template_file" "cloudconfig" {
-  template = "${file("~/Terraform/ScaleSet/template.tpl")}"
+  template = "${file("~/Terraform-T/Terraform/ScaleSet/template.tpl")}"
 }
 
 data "template_cloudinit_config" "config" {
@@ -73,7 +73,7 @@ resource "azurerm_virtual_machine_scale_set" "example" {
     publisher = "Canonical"
     offer     = "UbuntuServer"
     sku       = "18.04-LTS"
-    version   = "latest"
+    version   = "latest" 
   }
 
   storage_profile_os_disk {
@@ -93,11 +93,12 @@ resource "azurerm_virtual_machine_scale_set" "example" {
   os_profile {
     computer_name_prefix = "testvm"
     admin_username       = "azureuser"
+    admin_password = "Pas5word"
     custom_data = "${data.template_cloudinit_config.config.rendered}"
   }
 
   os_profile_linux_config {
-    disable_password_authentication = true
+    disable_password_authentication = false
 
     ssh_keys {
       path     = "/home/azureuser/.ssh/authorized_keys"
